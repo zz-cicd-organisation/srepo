@@ -45,7 +45,7 @@ jobs:
           environment: "svc"
           description: "deploying svc"
           ref: "main"
-          payload: ${{ toJSON(fromJson(needs.req_body.outputs.body)) }}
+          payload: ${{ steps.req_body.outputs.body)) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
