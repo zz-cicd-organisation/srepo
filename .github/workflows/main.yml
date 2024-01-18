@@ -39,15 +39,19 @@ jobs:
         id: create_deployment
         with:
           route: POST /repos/{owner}/{repo}/deployments
-          owner: zz-cicd-organisation
-          repo: srepo
-#          name: "Test check run"
-          environment: "svc"
-          description: "deploying svc"
-          ref: "main"
-          payload: ${{ steps.req_body.outputs.body }}
+#          owner: zz-cicd-organisation
+#          repo: srepo
+##          name: "Test check run"
+#          environment: "svc"
+#          description: "deploying svc"
+#          ref: "main"
+#          payload: ${{ steps.req_body.outputs.body }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_REPO: irepo
+          INPUT_OWNER: zz-cicd-organisation
+          INPUT_REF: main
+          INPUT_ENVIRONMENT: svc
 
       - run: sleep 30
 
