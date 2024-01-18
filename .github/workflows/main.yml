@@ -40,7 +40,7 @@ jobs:
         with:
           route: POST /repos/{owner}/{repo}/deployments
           owner: zz-cicd-organisation
-          repo: irepo
+          repo: srepo
 #          name: "Test check run"
           environment: "svc"
           description: "deploying svc"
