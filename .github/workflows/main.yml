@@ -47,7 +47,7 @@ jobs:
 #          ref: "main"
 #          payload: ${{ steps.req_body.outputs.body }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
           INPUT_REPO: srepo
           INPUT_OWNER: zz-cicd-organisation
           INPUT_REF: main
@@ -61,6 +61,6 @@ jobs:
           route: POST ${{ fromJson(steps.create_deployment.outputs.data).statuses_url }}
           state: "success"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
 
 
