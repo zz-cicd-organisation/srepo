@@ -52,8 +52,9 @@ jobs:
           INPUT_OWNER: zz-cicd-organisation
           INPUT_REF: main
           INPUT_ENVIRONMENT: svc
+          INPUT_PAYLOAD: ${{ steps.req_body.outputs.body }}
 
-      - run: sleep 30
+#      - run: sleep 30
 
       - uses: octokit/request-action@v2.x
         id: create_deployment_status
