@@ -25,12 +25,40 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: 'Set body'
+        id: req_body
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          _reviewers_json="$(cat <<EOF
+          [ { "type": "Team", "id": 0 } ]
+          EOF
+          )"
+          
+          echo "reviewers_json=${_reviewers_json}" >> GITHUB_OUTPUT
+
+      - uses: octokit/request-action@v2.x
+        id: create_deployment
+        with:
+          route: POST /repos/{owner}/{repo}/deployments
+          owner: zz-cicd-organisation
+          repo: irepo
+#          name: "Test check run"
+          environment: "svc"
+          description: "deploying svc"
+
+          ref: "main"
+          output: | # The | is significant!
+            statuses_url: ${{ fromJson(steps.create_deployment.outputs.data).statuses_url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: sleep 30
+
+      - uses: octokit/request-action@v2.x
+        id: create_deployment_status
+        with:
+          route: POST ${{ fromJson(steps.create_deployment.outputs.data).statuses_url }}
+          state: "success"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
