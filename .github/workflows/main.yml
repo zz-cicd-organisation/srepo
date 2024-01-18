@@ -33,7 +33,7 @@ jobs:
           EOF
           )"
           
-          echo "reviewers_json=${_reviewers_json}" >> GITHUB_OUTPUT
+          echo "body=${_reviewers_json}" >> GITHUB_OUTPUT
 
       - uses: octokit/request-action@v2.x
         id: create_deployment
@@ -44,10 +44,8 @@ jobs:
 #          name: "Test check run"
           environment: "svc"
           description: "deploying svc"
-
           ref: "main"
-          output: | # The | is significant!
-            statuses_url: ${{ fromJson(steps.create_deployment.outputs.data).statuses_url }}
+          payload: ${{ toJSON(fromJson(needs.req_body.outputs.body)) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
